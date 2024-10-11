@@ -100,6 +100,7 @@ set guifont=Monospace\ 10
 :map  qq  :q<enter>
 :map  ee  :e<enter>
 :map  cc  :s/^/\/\/<enter>   
+:map  nt  :NERDTree<enter>
 
 
 au BufNewFile,BufRead *.pv setf verilog       
