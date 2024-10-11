@@ -1,404 +1,378 @@
 " Vim syntax file
-" Language:	SystemVerilog (superset extension of Verilog)
+" Language:	SystemVerilog
+" Maintainer:	WeiChung Wu <exelion04 at gmail dot com>
+" Last Change:	2011 Aug 04
+"
+" Credits:
+"   Originally created by
+"       Dave Eggum (opine at bluebottle dOt com)
 
-" Extends Verilog syntax
-" Requires $VIMRUNTIME/syntax/verilog.vim to exist
+" NOTE: extra white space at the end of the line will be highlighted if you
+" add this line to your colorscheme:
+
+" highlight SpaceError    guibg=#204050
+
+" (change the value for guibg to any color you like)
 
 " For version 5.x: Clear all syntax items
 " For version 6.x: Quit when a syntax file was already loaded
 if version < 600
-   syntax clear
+  syntax clear
 elseif exists("b:current_syntax")
-   finish
+  finish
 endif
 
-" Override 'iskeyword'
-if version >= 600
-   setlocal iskeyword=@,48-57,_,192-255
+" A bunch of useful SV keywords
+syn keyword	svStatement	always always_comb always_ff always_latch assert
+syn keyword	svStatement	break return continue fork join disable force release assign alias
+syn keyword	svStatement	join_any join_none frokjoin binsof intersect wait wait_order
+
+syn keyword	svLabel		bind constraint covergroup coverpoint
+syn keyword	svLabel		class CLOCK clocking default function generate interface modport 
+syn keyword	svLabel		package program property randseq sequence specify
+syn keyword	svLabel		task 
+syn keyword	svLabel		begin initial module forever final import 
+syn keyword	svLabel		end endclass endfunction endgenerate endtask endprogram endmodule 
+syn keyword	svLabel		endinterface endpackage endproperty endclocking endgroup
+
+syn keyword	svConditional	if iff else case casex casez endcase randcase
+syn keyword	svConditional	unique priority randsequence endsequence 
+syn keyword 	svRepeat	repeat while for do foreach
+syn keyword 	svModifier	after all any around assoc_size async
+syn keyword 	svModifier	before big_endian bit_normal bit_reverse export
+syn keyword 	svModifier	extends extern hdl_node hdl_task implements interconnect little_endian local
+syn keyword 	svModifier	negedge nettype none packed protected posedge public rules
+syn keyword 	svModifier	shadow soft solve static super this typedef unpacked var
+syn keyword 	svModifier	vca virtual virtuals wildcard with
+syn keyword 	svModifier	ref const pure automatic
+
+syn keyword 	svType		reg string enum struct event bit semaphore
+syn keyword 	svType		rand randc integer parameter localparam specparam defparam
+syn keyword 	svType		logic int mailbox input output inout unsigned signed time wire
+syn keyword 	svType		shortint longint byte real
+
+"syn keyword     svDeprecated	call_func call_task close_conn get_bind get_bind_id
+"syn keyword     svDeprecated	get_conn_err mailbox_receive mailbox_send make_client
+"syn keyword     svDeprecated	make_server simwave_plot up_connections
+
+" predefined tasks and functions
+"syn keyword 	svTask		alloc assoc_index cast_assign cm_coverage
+"syn keyword 	svTask		cm_get_coverage cm_get_limit delay error error_mode
+"syn keyword 	svTask		exit fclose feof ferror fflush flag fopen fprintf
+"syn keyword 	svTask		freadb freadh freadstr get_cycle get_env get_memsize
+"syn keyword 	svTask		get_plus_arg getstate get_systime get_time get_time_unit
+"syn keyword 	svTask		initstate lock_file mailbox_get mailbox_put os_command
+"syn keyword 	svTask		printf prodget prodset psprintf query query_str query_x
+"syn keyword 	svTask		rand48 random region_enter region_exit rewind
+"syn keyword 	svTask		semaphore_get semaphore_put setstate signal_connect
+"syn keyword 	svTask		sprintf srandom sscanf stop suspend_thread sync
+"syn keyword 	svTask		trace trigger unit_delay unlock_file urand48
+"syn keyword 	svTask		urandom urandom_range 
+"syn keyword 	svTask		vsv_call_func vsv_call_task vsv_get_conn_err
+"syn keyword 	svTask		vsv_make_client vsv_make_server vsv_up_connections
+"syn keyword 	svTask		vsv_wait_for_done vsv_wait_for_input wait_child wait_var
+"  " ChungWu modify
+"syn keyword 	svTask		wait cast display displayb displayh write
+syn match       svTask          "\$[a-zA-Z0-9_]\+\>"
+
+syn cluster	svOperGroup	contains=svOperator,svOperParen,svNumber,svString,svOperOk,svType
+" syn match	svOperator	"++\|--\|&\|\~&\||\|\~|\|^\|\~^\|\~\|><"
+" syn match	svOperator	"*\|/\|%\|+\|-\|<<\|>>\|<\|<=\|>\|>=\|!in"
+" syn match	svOperator	"=?=\|!?=\|==\|!=\|===\|!==\|&\~\|^\~\||\~"
+" syn match	svOperator	"&&\|||\|=\|+=\|-=\|*=\|/=\|%=\|<<=\|>>=\|&="
+" syn match	svOperator	"|=\|^=\|\~&=\|\~|=\|\~^="
+
+syn match	svOperator	"[&|\~><!*@+/=,.\^\-]"
+syn keyword	svOperator	or inside dist not
+
+" sv class methods
+syn keyword	svMethods	atobin atohex atoi atooct atoreal backref bittostr capacity
+syn keyword	svMethods	compare Configure constraint_mode DisableTrigger
+syn keyword	svMethods	DoAction empty EnableCount EnableTrigger Event find
+syn keyword	svMethods	find_index find_first find_first_index find_last find_last_index
+syn keyword	svMethods	GetAssert get_at_least get_auto_bin getc GetCount get_coverage_goal get_cov_weight
+syn keyword	svMethods	get_cross_bin_max GetFirstAssert GetName GetNextAssert
+syn keyword	svMethods	get_status get_status_msg hide hash icompare insert
+syn keyword	svMethods	inst_get_at_least inst_get_auto_bin_max inst_get_collect
+syn keyword	svMethods	inst_get_coverage_goal inst_get_cov_weight inst_getcross_bin_max
+syn keyword	svMethods	inst_query inst_set_at_least inst_set_auto_bin_max
+syn keyword	svMethods	inst_set_bin_activiation inst_set_collect inst_set_coverage_goal
+syn keyword	svMethods	inst_set_cov_weight inst_set_cross_bin_max itoa last_index
+syn keyword	svMethods	len load match max max_index min min_index new object_compare
+syn keyword	svMethods	object_compare object_copy object_print pack pick_index
+syn keyword	svMethods	pop_back pop_front post_boundary postmatch post_pack post_pack
+syn keyword	svMethods	post_randomize post_randomize post_unpack post_unpack
+syn keyword	svMethods	pre_boundary prematch pre_pack pre_pack pre_randomize
+syn keyword	svMethods	pre-randomize pre_unpack product push_back push_front putc query
+syn keyword	svMethods	query_str rand_mode randomize reserve reverse rsort search
+syn keyword	svMethods	set_at_least set_auto_bin_max set_bin_activiation
+syn keyword	svMethods	set_coverage_goal set_cov_weight set_cross_bin_max 
+syn keyword	svMethods	shuffle size sort substr sum thismatch tolower toupper unique_index
+syn keyword	svMethods	Wait
+syn keyword	svMethods	num delete exists first last next prev
+
+" interface keywords
+"syn keyword	svInterface	ASYNC CLOCK gnr gr0 gr1 grx grz NHOLD nr NR0 NR1
+"syn keyword	svInterface	NRZ NRZ NSAMPLE PHOLD PR0 PR1 PRX PRZ r0 r1 rx snr
+"syn keyword	svInterface	sr0 sr1 srx srz depth inout input output
+"syn match      svInterface	"\$\w\+"
+
+
+syn keyword	svTodo		contained TODO FIXME XXX FINISH
+
+" svCommentGroup allows adding matches for special things in comments
+syn cluster	svCommentGroup	contains=svTodo
+
+" String and Character constants
+" Highlight special characters (those which have a backslash) differently
+syn match	svSpecial	display contained "\\\(x\x\+\|\o\{1,3}\|.\|$\)"
+syn match	svFormat	display "%\(\d\+\$\)\=[-+' #0*]*\(\d*\|\*\|\*\d\+\$\)\(\.\(\d*\|\*\|\*\d\+\$\)\)\=\([hlL]\|ll\)\=\([bdhiuoxXDBHOUfeEgGcCsSpnmt]\|\[\^\=.[^]]*\]\)" contained
+syn match	svFormat	display "%%" contained
+syn region	svString	start=+"+ skip=+\\\\\|\\"+ end=+"+ contains=svSpecial,svFormat,@Spell
+syn region	svConcat	contained transparent oneline start='{' end='}'
+
+" svCppString: same as svString, but ends at end of line
+syn region	svCppString	start=+"+ skip=+\\\\\|\\"\|\\$+ excludenl end=+"+ end='$' contains=svSpecial,svFormat,@Spell
+
+syn match	svCharacter		"'[^\\]'"
+syn match	svCharacter		"L'[^']*'" contains=svSpecial
+syn match	svSpecialError		"'\\[^'\"?\\abefnrtv]'"
+syn match	svSpecialCharacter	"'\\['\"?\\abefnrtv]'"
+syn match	svSpecialCharacter	display	"'\\\o\{1,3}'"
+syn match	svSpecialCharacter	display	"'\\x\x\{1,2}'"
+syn match	svSpecialCharacter	display	"L'\\x\x\+'"
+
+" highlight trailing white space
+syn match	svSpaceError		display	excludenl "\s\+$"
+syn match	svSpaceError		display	" \+\t"me=e-1
+
+"catch errors caused by wrong parenthesis and brackets
+syn cluster	svParenGroup		contains=svParenError,svIncluded,svSpecial,svCommentSkip,svCommentString,svComment2String,@svCommentGroup,svCommentStartError,svUserCont,svUserLabel,svBitField,svCommentSkip,svOctalZero,svCppOut,svCppOut2,svCppSkip,svFormat,svNumber,svFloat,svOctal,svOctalError,svNumbersCom
+
+syn region	svParen		transparent start='(' end=')' contains=ALLBUT,@svParenGroup,svCppParen,svErrInBracket,svCppBracket,svCppString,@Spell
+" svCppParen: same as svParen but ends at end-of-line; used in svDefine
+syn region	svCppParen	transparent start='(' skip='\\$' excludenl end=')' end='$' contained contains=ALLBUT,@svParenGroup,svErrInBracket,svParen,svBracket,svString,@Spell
+syn match	svParenError	display "[\])]"
+" syn match	svErrInParen	display contained "[\]{}]"
+syn match	svErrInParen	display contained "[\]]"
+syn region	svBracket	transparent start='\[' end=']' contains=ALLBUT,@svParenGroup,svErrInParen,svCppParen,svCppBracket,svCppString,@Spell
+
+" svCppBracket: same as svParen but ends at end-of-line; used in svDefine
+syn region	svCppBracket	transparent start='\[' skip='\\$' excludenl end=']' end='$' contained contains=ALLBUT,@svParenGroup,svErrInParen,svParen,svBracket,svString,@Spell
+syn match	svErrInBracket	display contained "[);{}]"
+
+"integer number, or floating point number without a dot and with "f".
+syn case ignore
+syn match	svNumbers	display transparent "\<\d\|\.\d" contains=svNumber,svFloat,svOctalError,svOctal
+" Same, but without octal error (for comments)
+syn match	svNumbersCom	display contained transparent "\<\d\|\.\d" contains=svNumber,svFloat,svOctal
+" syn match	svNumber	display contained "\d\+\(u\=l\{0,2}\|ll\=u\)\>"
+" "hex number
+" syn match	svNumber	display contained "0x\x\+\(u\=l\{0,2}\|ll\=u\)\>"
+" syn match   svNumber "\(\<[0-9]\+\|\)'[bdoh][0-9a-fxzA-FXZ_]\+\>"
+syn match	svNumber 	"\<\(\<[0-9]\+\)\?\('[bdoh]\)\?[0-9a-fxz_]\+\>"
+" syn match   svNumber "\<[+-]\=[0-9]\+\>"
+" Flag the first zero of an octal number as something special
+syn match	svOctal		display contained "0\o\+\(u\=l\{0,2}\|ll\=u\)\>" contains=svOctalZero
+syn match	svOctalZero	display contained "\<0"
+syn match	svFloat		display contained "\d\+f"
+"floating point number, with dot, optional exponent
+syn match	svFloat		display contained "\d\+\.\d*\(e[-+]\=\d\+\)\=[fl]\="
+"floating point number, starting with a dot, optional exponent
+syn match	svFloat		display contained "\.\d\+\(e[-+]\=\d\+\)\=[fl]\=\>"
+"floating point number, without dot, with exponent
+syn match	svFloat		display contained "\d\+e[-+]\=\d\+[fl]\=\>"
+"hexadecimal floating point number, optional leading digits, with dot, with exponent
+syn match	svFloat		display contained "0x\x*\.\x\+p[-+]\=\d\+[fl]\=\>"
+"hexadecimal floating point number, with leading digits, optional dot, with exponent
+syn match	svFloat		display contained "0x\x\+\.\=p[-+]\=\d\+[fl]\=\>"
+
+" flag an octal number with wrong digits
+syn match	svOctalError	display contained "0\o*[89]\d*"
+syn case match
+
+let sv_comment_strings = 1
+
+if exists("sv_comment_strings")
+  " A comment can contain svString, svCharacter and svNumber.
+  " But a "*/" inside a svString in a svComment DOES end the comment!  So we
+  " need to use a special type of svString: svCommentString, which also ends on
+  " "*/", and sees a "*" at the start of the line as comment again.
+  " Unfortunately this doesn't work very well for // type of comments :-(
+  syntax match	svCommentSkip		contained "^\s*\*\($\|\s\+\)"
+  syntax region svCommentString		contained start=+L\=\\\@<!"+ skip=+\\\\\|\\"+ end=+"+ end=+\*/+me=s-1 contains=svSpecial,svCommentSkip
+  syntax region svComment2String	contained start=+\\\@<!"+ skip=+\\\\\|\\"+ end=+"+ end="$" contains=svSpecial
+  syntax region	svCommentL		start="//" skip="\\$" end="$" keepend contains=@svCommentGroup,svComment2String,svCharacter,svNumbersCom,svSpaceError,@Spell
+  if exists("sv_no_comment_fold")
+    syntax region svComment	matchgroup=svCommentStart start="/\*" end="\*/" contains=@svCommentGroup,svCommentStartError,svCommentString,svCharacter,svNumbersCom,svSpaceError,@Spell
+  else
+    syntax region svComment	matchgroup=svCommentStart start="/\*" end="\*/" contains=@svCommentGroup,svCommentStartError,svCommentString,svCharacter,svNumbersCom,svSpaceError,@Spell fold
+  endif
 else
-   set iskeyword=@,48-57,_,192-255
+  syn region	svCommentL	start="//" skip="\\$" end="$" keepend contains=@svCommentGroup,svSpaceError,@Spell
+  if exists("sv_no_comment_fold")
+    syn region	svComment	matchgroup=svCommentStart start="/\*" end="\*/" contains=@svCommentGroup,svCommentStartError,svSpaceError,@Spell
+  else
+    syn region	svComment	matchgroup=svCommentStart start="/\*" end="\*/" contains=@svCommentGroup,svCommentStartError,svSpaceError,@Spell fold
+  endif
 endif
+" keep a // comment separately, it terminates a preproc. conditional
+syntax match	svCommentError		display "\*/"
+syntax match	svCommentStartError 	display "/\*"me=e-1 contained
 
-" Store cpoptions
-let oldcpo=&cpoptions
-set cpo-=C
+" syntax region	svBlock		start="{" end="}" transparent fold
+syntax region	svBlock		start="begin" end="end" transparent fold
 
-syn sync lines=1000
+" sv pre-defined constants
+syn keyword svConstant	ALL ANY BAD_STATE BAD_TRANS CALL CHECK CHGEDGE
+syn keyword svConstant	CLEAR COPY_NO_WAIT COPY_WAIT CROSS CROSS_TRANS
+syn keyword svConstant	DEBUG DELETE EC_ARRAYX EC_CODE_END EC_CONFLICT
+syn keyword svConstant	EC_EVNTIMOUT EC_EXPECT EC_FULLEXPECT EC_MBXTMOUT
+syn keyword svConstant	EC_NEXPECT EC_RETURN EC_RGNTMOUT EC_SCONFLICT
+syn keyword svConstant	EC_SEMTMOUT EC_SEXPECT EC_SFULLEXPECT EC_SNEXTPECT
+syn keyword svConstant	EC_USERSET EQ EVENT FAIL FIRST FORK GE GOAL GT
+syn keyword svConstant	HAND_SHAKE HI HIGH HNUM LE LIC_EXIT LIC_PRERR
+syn keyword svConstant	LIC_PRWARN LIC_WAIT LO LOAD LOW LT MAILBOX MAX_COM
+syn keyword svConstant	NE NEGEDGE NEXT NO_OVERLAP NO_OVERLAP_STATE
+syn keyword svConstant	NO_OVERLAP_TRANS NO_VARS NO_WAIT NUM NUM_BIN
+syn keyword svConstant	NUM_DET null OFF OK OK_LAST ON ONE_BLAST ONE_SHOT ORDER
+syn keyword svConstant	PAST_IT PERCENT POSEDGE PROGRAM RAWIN REGION REPORT
+syn keyword svConstant	SAMPLE SAVE SEMAPHORE SET SILENT STATE stderr
+syn keyword svConstant	stdin stdout STR STR_ERR_OUT_OF_RANGE
+syn keyword svConstant	STR_ERR_REGEXP_SYNTAX SUM TRANS VERBOSE void WAIT
+syn keyword svConstant	__LINE__ __FILE__ __DATE__ __TIME__ 
+syn keyword svConstant	__VERSION__ 
 
-"##########################################################
-"       SystemVerilog Syntax
-"##########################################################
+syn match   svUserConstant "\<[A-Z][A-Z0-9_]\+\>"
+syn match   svUvmMacro  "`\(u\|o\)vm_\w\+"
 
-syn keyword verilogStatement   always and assign automatic buf
-syn keyword verilogStatement   bufif0 bufif1 cell cmos
-syn keyword verilogStatement   config deassign defparam design
-syn keyword verilogStatement   disable edge endconfig
-syn keyword verilogStatement   endgenerate
-syn keyword verilogStatement   endprimitive endtable
-syn keyword verilogStatement   event force fork join
-syn keyword verilogStatement   join_any join_none forkjoin
-syn keyword verilogStatement   generate genvar highz0 highz1 ifnone
-syn keyword verilogStatement   incdir include initial inout input
-syn keyword verilogStatement   instance integer large liblist
-syn keyword verilogStatement   library localparam macromodule medium
-syn keyword verilogStatement   nand negedge nmos nor
-syn keyword verilogStatement   noshowcancelled not notif0 notif1 or
-syn keyword verilogStatement   output parameter pmos posedge primitive
-syn keyword verilogStatement   pull0 pull1 pulldown pullup
-syn keyword verilogStatement   pulsestyle_onevent pulsestyle_ondetect
-syn keyword verilogStatement   rcmos real realtime reg release
-syn keyword verilogStatement   rnmos rpmos rtran rtranif0 rtranif1
-syn keyword verilogStatement   scalared showcancelled signed small
-syn keyword verilogStatement   specparam strong0 strong1
-syn keyword verilogStatement   supply0 supply1 table time tran
-syn keyword verilogStatement   tranif0 tranif1 tri tri0 tri1 triand
-syn keyword verilogStatement   trior trireg unsigned use vectored wait
-syn keyword verilogStatement   wand weak0 weak1 wire wor xnor xor
-syn keyword verilogStatement   semaphore mailbox
+syn match svClass 	"\zs\w\+\ze::"
+syn match svClass 	"\zs\w\+\ze\s\+\w\+\s*[=;,)\[]" contains=svConstant,svUserConstant
+syn match svClass 	"\zs\w\+\ze\s\+\w\+\s*$" contains=svConstant,svUserConstant
+syn match svClass 	"\zs\w\+\ze\s*#(" contains=svConstant,svUserConstant
+syn match svUserMethod 	"\zs\w\+\ze\s*(" contains=svConstant,svUserConstant
+syn match svObject 	"\zs\w\+\ze\.\w"
+syn match svObject 	"\zs\w\+\ze\.\$\w"
 
-syn keyword verilogStatement   always_comb always_ff always_latch
-syn keyword verilogStatement   checker endchecker
-syn keyword verilogStatement   virtual local const protected
-syn keyword verilogStatement   package endpackage
-syn keyword verilogStatement   rand randc constraint randomize
-syn keyword verilogStatement   with inside dist
-syn keyword verilogStatement   randcase
-syn keyword verilogStatement   randsequence
-syn keyword verilogStatement   get_randstate set_randstate
-syn keyword verilogStatement   srandom
-syn keyword verilogStatement   logic bit byte time
-syn keyword verilogStatement   int longint shortint
-syn keyword verilogStatement   struct packed
-syn keyword verilogStatement   final
-syn keyword verilogStatement   import
-syn keyword verilogStatement   context pure
-syn keyword verilogStatement   void shortreal chandle string
-syn keyword verilogStatement   modport
-syn keyword verilogStatement   cover coverpoint
-syn keyword verilogStatement   program endprogram
-syn keyword verilogStatement   bins binsof illegal_bins ignore_bins
-syn keyword verilogStatement   alias matches solve static assert
-syn keyword verilogStatement   assume before expect bind
-syn keyword verilogStatement   extends tagged extern
-syn keyword verilogStatement   first_match throughout timeprecision
-syn keyword verilogStatement   timeunit priority type union
-syn keyword verilogStatement   uwire var cross ref wait_order intersect
-syn keyword verilogStatement   wildcard within
-syn keyword verilogStatement   triggered
-syn keyword verilogStatement   std
-syn keyword verilogStatement   accept_on eventually global implements implies
-syn keyword verilogStatement   interconnect let nettype nexttime reject_on restrict soft
-syn keyword verilogStatement   s_always s_eventually s_nexttime s_until s_until_with
-syn keyword verilogStatement   strong sync_accept_on sync_reject_on unique unique0
-syn keyword verilogStatement   until until_with untyped weak
-
-syn keyword verilogTypeDef     enum
-
-syn keyword verilogConditional iff
-syn keyword verilogConditional if else case casex casez default endcase
-
-syn keyword verilogRepeat      forever repeat while for
-syn keyword verilogRepeat      return break continue
-syn keyword verilogRepeat      do while foreach
-
-syn match   verilogGlobal      "`[a-zA-Z_][a-zA-Z0-9_$]\+"
-syn match   verilogGlobal      "$[a-zA-Z0-9_$]\+"
-
-if !exists('g:verilog_disable_constant_highlight')
-    syn match   verilogConstant    "\<[A-Z][A-Z0-9_$]*\>"
+" Accept ` for # (Verilog)
+syn region	svPreCondit	start="^\s*\(`\|#\)\s*\(if\|ifdef\|ifndef\|elsif\)\>" skip="\\$" end="$" end="//"me=s-1 contains=svComment,svCppString,svCharacter,svCppParen,svParenError,svNumbers,svCommentError,svSpaceError
+syn match	svPreCondit	display "^\s*\(`\|#\)\s*\(else\|endif\)\>"
+if !exists("sv_no_if0")
+  syn region	svCppOut	start="^\s*\(`\|#\)\s*if\s\+0\+\>" end=".\@=\|$" contains=svCppOut2
+  syn region	svCppOut2	contained start="0" end="^\s*\(`\|#\)\s*\(endif\>\|else\>\|elsif\>\)" contains=svSpaceError,svCppSkip
+  syn region	svCppSkip	contained start="^\s*\(`\|#\)\s*\(if\>\|ifdef\>\|ifndef\>\)" skip="\\$" end="^\s*\(`\|#\)\s*endif\>" contains=svSpaceError,svCppSkip
 endif
+syn region	svIncluded	display contained start=+"+ skip=+\\\\\|\\"+ end=+"+
+syn match	svIncluded	display contained "<[^>]*>"
+syn match	svInclude	display "^\s*\(`\|#\)\s*include\>\s*["<]" contains=svIncluded
+"syn match svLineSkip	"\\$"
+syn cluster	svPreProcGroup	contains=svPreCondit,svIncluded,svInclude,svDefine,svErrInParen,svErrInBracket,svUserLabel,svSpecial,svOctalZero,svCppOut,svCppOut2,svCppSkip,svFormat,svNumber,svFloat,svOctal,svOctalError,svNumbersCom,svString,svCommentSkip,svCommentString,svComment2String,@svCommentGroup,svCommentStartError,svParen,svBracket,svMulti
+syn region	svDefine	start="^\s*\(`\|#\)\s*\(define\|undef\)\>" skip="\\$" end="$" end="//"me=s-1 contains=ALLBUT,@svPreProcGroup,@Spell
+syn region	svPreProc	start="^\s*\(`\|#\)\s*\(pragma\>\|line\>\|warning\>\|error\>\)" skip="\\$" end="$" keepend contains=ALLBUT,@svPreProcGroup,@Spell
 
-syn match   verilogNumber      "\(\d\+\)\?'[sS]\?[bB]\s*[0-1_xXzZ?]\+"
-syn match   verilogNumber      "\(\d\+\)\?'[sS]\?[oO]\s*[0-7_xXzZ?]\+"
-syn match   verilogNumber      "\(\d\+\)\?'[sS]\?[dD]\s*[0-9_xXzZ?]\+"
-syn match   verilogNumber      "\(\d\+\)\?'[sS]\?[hH]\s*[0-9a-fA-F_xXzZ?]\+"
-syn match   verilogNumber      "\<[+-]\?[0-9_]\+\(\.[0-9_]*\)\?\(e[0-9_]*\)\?\>"
-syn match   verilogNumber      "\<\d[0-9_]*\(\.[0-9_]\+\)\=\([fpnum]\)\=s\>"
-syn keyword verilogNumber      1step
+" Highlight User Labels
+syn cluster	svMultiGroup	contains=svIncluded,svSpecial,svCommentSkip,svCommentString,svComment2String,@svCommentGroup,svCommentStartError,svUserCont,svUserLabel,svBitField,svOctalZero,svCppOut,svCppOut2,svCppSkip,svFormat,svNumber,svFloat,svOctal,svOctalError,svNumbersCom,svCppParen,svCppBracket,svCppString
+syn region	svMulti		transparent start='?' skip='::' end=':' contains=ALLBUT,@svMultiGroup,@Spell
+" syn region	svMulti		transparent start='?' skip='::' end=':' contains=ALL
+" The above causes svCppOut2 to catch on:
+"    i = (isTrue) ? 0 : 1;
+" which ends up commenting the rest of the file
 
-syn keyword verilogTodo        contained TODO FIXME
+" Avoid matching foo::bar() by requiring that the next char is not ':'
+syn cluster	svLabelGroup	contains=svUserLabel
+syn match	svUserCont	display "^\s*\I\i*\s*:$" contains=@svLabelGroup
+syn match	svUserCont	display ";\s*\I\i*\s*:$" contains=@svLabelGroup
+syn match	svUserCont	display "^\s*\I\i*\s*:[^:]"me=e-1 contains=@svLabelGroup
+syn match	svUserCont	display ";\s*\I\i*\s*:[^:]"me=e-1 contains=@svLabelGroup
 
-syn match   verilogOperator    "[&|~><!)(*#%@+/=?:;}{,.\^\-\[\]]"
+syn match	svUserLabel	display "\I\i*" contained
 
-syn region  verilogString      start=+"+ skip=+\\"+ end=+"+ contains=verilogEscape,@Spell
-syn match   verilogEscape      +\\[nt"\\]+ contained
-syn match   verilogEscape      "\\\o\o\=\o\=" contained
+" Avoid recognizing most bitfields as labels
+syn match	svBitField	display "^\s*\I\i*\s*:\s*[1-9]"me=e-1
+syn match	svBitField	display ";\s*\I\i*\s*:\s*[1-9]"me=e-1
 
-syn keyword verilogMethod      new
-if v:version >= 704
-    syn match   verilogMethod  "\(\(\s\|[(/]\|^\)\.\)\@2<!\<\w\+\ze#\?("
+if exists("sv_minlines")
+  let b:sv_minlines = sv_minlines
 else
-    syn match   verilogMethod  "\(\(\s\|[(/]\|^\)\.\)\@<!\<\w\+\ze#\?("
+  if !exists("sv_no_if0")
+    let b:sv_minlines = 50	" #if 0 constructs can be long
+  else
+    let b:sv_minlines = 15	" mostly for () constructs
+  endif
 endif
-
-syn match   verilogLabel       "\<\k\+\>\ze\s*:\s*\<\(assert\|assume\|cover\(point\)\?\|cross\)\>"
-if v:version >= 704
-    syn match   verilogLabel   "\(\<\(begin\|end\)\>\s*:\s*\)\@20<=\<\k\+\>"
-else
-    syn match   verilogLabel   "\(\<\(begin\|end\)\>\s*:\s*\)\@<=\<\k\+\>"
-endif
-
-syn keyword verilogObject      super null this
-syn match   verilogObject      "\<\w\+\ze\(::\|\.\)" contains=verilogNumber
-
-
-" Create syntax definition from g:verilog_syntax dictionary
-function! s:SyntaxCreate(name, verilog_syntax)
-    if exists('a:verilog_syntax[a:name]')
-        let verilog_syn_region_name = 'verilog'.substitute(a:name, '.*', '\u&', '')
-        for entry in a:verilog_syntax[a:name]
-            if exists('entry["match"]')
-                " syn-match definitions
-                let match = entry["match"]
-                let verilog_syn_match_cmd = 'syn match '.verilog_syn_region_name.' "'.match.'"'
-
-                if exists('entry["syn_argument"]')
-                    let verilog_syn_match_cmd .= ' '.entry["syn_argument"]
-                endif
-
-                execute verilog_syn_match_cmd
-            elseif exists('entry["match_start"]') && exists('entry["match_end"]')
-                " syn-region definitions
-
-                let region_start = entry["match_start"]
-                let region_end = entry["match_end"]
-
-                if verilog_systemverilog#VariableExists('verilog_quick_syntax')
-                    execute 'syn keyword verilogStatement '.region_start.' '.region_end
-                else
-                    let verilog_syn_region_cmd = 'syn region '.verilog_syn_region_name
-
-                    if exists('entry["highlight"]')
-                        let verilog_syn_region_cmd .= ' matchgroup='.entry["highlight"]
-                    endif
-
-                    let verilog_syn_region_cmd .=
-                        \  ' start="'.region_start.'"'
-                        \ .' end="'.region_end.'"'
-
-                    " Always skip inline comments
-                    if a:name != "comment" && exists('a:verilog_syntax["comment"]')
-                        let verilog_syn_region_cmd .= ' skip="'
-                        for comment_entry in a:verilog_syntax["comment"]
-                            if exists('comment_entry["match"]')
-                                let verilog_syn_region_cmd .= comment_entry["match"]
-                            endif
-                        endfor
-                        let verilog_syn_region_cmd .= '"'
-                    endif
-
-                    if exists('entry["syn_argument"]')
-                        let verilog_syn_region_cmd .= ' '.entry["syn_argument"]
-                    endif
-
-                    if !exists('entry["no_fold"]')
-                        if (index(s:verilog_syntax_fold, a:name) >= 0 || index(s:verilog_syntax_fold, "all") >= 0)
-                            let verilog_syn_region_cmd .= ' fold'
-                        endif
-                    endif
-
-                    execute verilog_syn_region_cmd
-                endif
-            elseif exists('entry["cluster"]')
-                " syn-cluster definitions
-
-                execute 'syn cluster '.verilog_syn_region_name.' contains='.entry["cluster"]
-            elseif exists('entry["keyword"]')
-                " syn-cluster definitions
-
-                execute 'syn keyword '.verilog_syn_region_name.' '.entry["keyword"]
-            else
-                echoerr 'Incorrect syntax defintion for '.a:name
-            endif
-        endfor
-    end
-endfunction
-
-" Only enable folding if verilog_syntax_fold_lst is defined
-let s:verilog_syntax_fold=verilog_systemverilog#VariableGetValue("verilog_syntax_fold_lst")
-
-" Syntax priority list
-let s:verilog_syntax_order = [
-            \ 'baseCluster',
-            \ 'statement',
-            \ 'assign',
-            \ 'attribute',
-            \ 'instance',
-            \ 'prototype',
-            \ 'class',
-            \ 'clocking',
-            \ 'covergroup',
-            \ 'define',
-            \ 'export',
-            \ 'expression',
-            \ 'function',
-            \ 'interface',
-            \ 'module',
-            \ 'property',
-            \ 'sequence',
-            \ 'specify',
-            \ 'task',
-            \ 'typedef',
-            \ ]
-
-" Generate syntax definitions for supported types
-for name in s:verilog_syntax_order
-    call s:SyntaxCreate(name, g:verilog_syntax)
-endfor
-
-if index(s:verilog_syntax_fold, "block_nested") >= 0 || index(s:verilog_syntax_fold, "block_named") >= 0
-    if index(s:verilog_syntax_fold, "block_nested") >= 0
-        syn region verilogBlock
-            \ matchgroup=verilogStatement
-            \ start="\<begin\>"
-            \ end="\<end\>.*\<begin\>"ms=s-1,me=s-1
-            \ fold
-            \ transparent
-            \ contained
-            \ nextgroup=verilogBlockEnd
-            \ contains=TOP
-        syn region verilogBlockEnd
-            \ matchgroup=verilogStatement
-            \ start="\<end\>.*\<begin\>"
-            \ end="\<end\>\ze.*\(\<begin\>\)\@!"
-            \ fold
-            \ transparent
-            \ contained
-            \ contains=TOP
-        syn match verilogStatement "\<end\>"
-    else "block_named
-        syn region verilogBlock
-            \ matchgroup=verilogStatement
-            \ start="\<begin\>"
-            \ end="\<end\>"
-            \ transparent
-            \ contained
-            \ contains=TOP
-        syn region verilogBlockNamed
-            \ matchgroup=verilogStatement
-            \ start="\<begin\>\ze\s*:\s*\z(\w\+\)"
-            \ end="\<end\>"
-            \ transparent
-            \ fold
-            \ contained
-            \ contains=TOP
-        "TODO break up if...else statements
-    endif
-    syn region verilogBlockContainer
-        \ start="\<begin\>"
-        \ end="\<end\>"
-        \ skip="/[*/].*"
-        \ transparent
-        \ keepend extend
-        \ contains=verilogBlock,verilogBlockNamed,verilogBlockEnd
-elseif index(s:verilog_syntax_fold, "block") >= 0 || index(s:verilog_syntax_fold, "all") >= 0
-    syn region verilogBlock
-        \ matchgroup=verilogStatement
-        \ start="\<begin\>"
-        \ end="\<end\>"
-        \ transparent
-        \ fold
-else
-    syn keyword verilogStatement  begin end
-endif
-
-if index(s:verilog_syntax_fold, "define") >= 0 || index(s:verilog_syntax_fold, "all") >= 0
-    syn region verilogIfdef
-        \ start="`ifn\?def\>"
-        \ end="^\s*`els\(e\|if\)\>"ms=s-1,me=s-1
-        \ fold transparent
-        \ keepend
-        \ contained
-        \ nextgroup=verilogIfdefElse,verilogIfdefEndif
-        \ contains=TOP
-    syn region verilogIfdefElse
-        \ start="`els\(e\|if\)\>"
-        \ end="^\s*`els\(e\|if\)\>"ms=s-1,me=s-1
-        \ fold transparent
-        \ keepend
-        \ contained
-        \ nextgroup=verilogIfdefElse,verilogIfdefEndif
-        \ contains=TOP
-    syn region verilogIfdefEndif
-        \ start="`else\>"
-        \ end="`endif\>"
-        \ fold transparent
-        \ keepend
-        \ contained
-        \ contains=TOP
-    syn region verilogIfdefContainer
-        \ start="`ifn\?def\>"
-        \ end="`endif\>"
-        \ skip="/[*/].*"
-        \ transparent
-        \ keepend extend
-        \ contains=verilogIfdef,verilogIfdefElse,verilogIfdefEndif
-endif
-
-" Generate syntax definitions for comments after other standard syntax
-" definitions to guarantee highest priority
-for name in ['comment']
-    call s:SyntaxCreate(name, g:verilog_syntax)
-endfor
-
-" Generate syntax definitions for custom types last to allow overriding
-" standard syntax
-if exists('g:verilog_syntax_custom')
-    for name in keys(g:verilog_syntax_custom)
-        call s:SyntaxCreate(name, g:verilog_syntax_custom)
-    endfor
-endif
-
-" Special comments: Synopsys directives
-syn match   verilogDirective   "//\s*synopsys\>.*$"
-syn region  verilogDirective   start="/\*\s*synopsys\>" end="\*/"
-syn region  verilogDirective   start="//\s*synopsys \z(\w*\)begin\>" end="//\s*synopsys \z1end\>"
-
-syn match   verilogDirective   "//\s*\$s\>.*$"
-syn region  verilogDirective   start="/\*\s*\$s\>" end="\*/"
-syn region  verilogDirective   start="//\s*\$s dc_script_begin\>" end="//\s*\$s dc_script_end\>"
-
-"Modify the following as needed.  The trade-off is performance versus
-"functionality.
-syn sync minlines=50
+exec "syn sync ccomment svComment minlines=" . b:sv_minlines
 
 " Define the default highlighting.
 " For version 5.7 and earlier: only when not done already
 " For version 5.8 and later: only when an item doesn't have highlighting yet
-if version >= 508 || !exists("did_verilog_syn_inits")
-   if version < 508
-      let did_verilog_syn_inits = 1
-      command -nargs=+ HiLink hi link <args>
-   else
-      command -nargs=+ HiLink hi def link <args>
-   endif
+if version >= 508 || !exists("did_systemverilog_syn_inits")
+  if version < 508
+    let did_systemverilog_syn_inits = 1
+    command -nargs=+ HiLink hi link <args>
+  else
+    command -nargs=+ HiLink hi def link <args>
+  endif
 
-   " The default highlighting.
-   HiLink verilogCharacter       Character
-   HiLink verilogConditional     Conditional
-   HiLink verilogRepeat          Repeat
-   HiLink verilogString          String
-   HiLink verilogTodo            Todo
-   HiLink verilogComment         Comment
-   HiLink verilogConstant        Constant
-   HiLink verilogLabel           Tag
-   HiLink verilogNumber          Number
-   HiLink verilogOperator        Special
-   HiLink verilogPrototype       Statement
-   HiLink verilogStatement       Statement
-   HiLink verilogGlobal          Define
-   HiLink verilogDirective       SpecialComment
-   HiLink verilogEscape          Special
-   HiLink verilogMethod          Function
-   HiLink verilogTypeDef         TypeDef
-   HiLink verilogObject          Type
+  HiLink svClass		Identifier
+  HiLink svObject		Identifier
+  HiLink svUserMethod		Function
+  HiLink svUvmMacro		Function
+  HiLink svTask                 Keyword
+  HiLink svModifier		Tag
+  HiLink svDeprecated		svError
+  HiLink svMethods		Statement
+  " HiLink svInterface		Label
+  " HiLink svInterface		Function
 
-   delcommand HiLink
+  HiLink svFormat		svSpecial
+  HiLink svCppString		svString
+  HiLink svCommentL		svComment
+  HiLink svCommentStart		svComment
+  HiLink svLabel		Label
+  HiLink svUserLabel		Label
+  HiLink svConditional		Conditional
+  HiLink svRepeat		Repeat
+  HiLink svCharacter		Character
+  HiLink svSpecialCharacter	svSpecial
+  HiLink svNumber		Number
+  HiLink svOctal		Number
+  HiLink svOctalZero		PreProc	 " link this to Error if you want
+  HiLink svFloat		Float
+  HiLink svOctalError		svError
+  HiLink svParenError		svError
+  HiLink svErrInParen		svError
+  HiLink svErrInBracket		svError
+  HiLink svCommentError		svError
+  HiLink svCommentStartError	svError
+  HiLink svSpaceError		SpaceError
+  HiLink svSpecialError		svError
+  HiLink svOperator		Operator
+  HiLink svStructure		Structure
+  HiLink svInclude		Include
+  HiLink svPreProc		PreProc
+  HiLink svDefine		Macro
+  HiLink svIncluded		svString
+  HiLink svError		Error
+  HiLink svStatement		Statement
+  HiLink svPreCondit		PreCondit
+  HiLink svType			Type
+  " HiLink svConstant		Constant
+  HiLink svConstant		Keyword
+  HiLink svUserConstant		Constant
+  HiLink svCommentString	svString
+  HiLink svComment2String	svString
+  HiLink svCommentSkip		svComment
+  HiLink svString		String
+  HiLink svComment		Comment
+  HiLink svSpecial		SpecialChar
+  HiLink svTodo			Todo
+  HiLink svCppSkip		svCppOut
+  HiLink svCppOut2		svCppOut
+  HiLink svCppOut		Comment
+
+  delcommand HiLink
 endif
 
-let b:current_syntax = "verilog_systemverilog"
+let b:current_syntax = "systemverilog"
 
-" Restore cpoptions
-let &cpoptions=oldcpo
-
-" vim: sts=4 sw=4
+" vim: ts=8
