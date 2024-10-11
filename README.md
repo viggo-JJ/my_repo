@@ -8,6 +8,8 @@ mv nerdtree-master .vim
 
 复制vimrc 到 ~/.vimrc
 
-linux自带ctags
+确保有安装ctags（linux默认自带）
+
+ctags默认是不支持system——verilog的需要把 复制 .ctags 到~/.ctags
 
 在顶层目录下执行ctags -R * 就可以用ctags到指令，在文件中进行跳转了
