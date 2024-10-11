@@ -6,7 +6,7 @@ mv nerdtree-master .vim
 
 复制所以.vim到~/.vim/syntax
 
-辅助vimrc 到 ~/.vimrc
+复制vimrc 到 ~/.vimrc
 
 linux自带ctags
 
