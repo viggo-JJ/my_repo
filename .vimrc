@@ -107,7 +107,8 @@ au BufNewFile,BufRead *.pv setf verilog
 augroup  filetypedetect
    au! BufRead,BufNewFile   *.sv   setfiletype  verilog_systemverilog
    au! BufRead,BufNewFile   *.svh  setfiletype  verilog_systemverilog                                                                                                                                                                                       
-   au! BufRead,BufNewFile   *.svt  setfiletype  verilog_systemverilog                                                                                                                                                                                    
+   au! BufRead,BufNewFile   *.svt  setfiletype  verilog_systemverilog 
+   au! BufRead,BufNewFile   *.svp  setfiletype  verilog_systemverilog
 augroup END                                                                                                                                                                                        
                                                                                                                                                                                         
 "====set ctag===                                                                                                                                                                                      
