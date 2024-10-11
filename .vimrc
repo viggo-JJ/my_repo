@@ -114,7 +114,8 @@ augroup END
 let tlist_verilog_systemverilog_settings='sv;c:class;m:module;p:parameter;e:event;r:register;t:task;f:function'
 let Tlist_Auto_Highlight_Tag=1
 let g:neocomplcache_enable_at_startup=1
-set tags=tags;
+set tags=tags
+set autochdir
 set cursorcolumn "highlight the mouse column
 nnoremap <silent> <F8> :TlistToggle<CR>
 
