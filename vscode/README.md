@@ -1,6 +1,6 @@
 Vscode 首先装上这两个插件
 
-<img width="627" alt="image" src="https://github.com/user-attachments/assets/dd4d1918-fbb8-451d-8c60-7cf65ca0d386">
+  <img width="627" alt="image" src="https://github.com/user-attachments/assets/dd4d1918-fbb8-451d-8c60-7cf65ca0d386">
 
 1. vim
    a.mac terminal里执行介绍里的那几句
