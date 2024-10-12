@@ -10,5 +10,7 @@ Vscode 首先装上这两个插件
    shift+commond+P 打开运行然后搜settings.json, 默认的settings是改不了的，只能改用户的settings
    <img width="682" alt="image" src="https://github.com/user-attachments/assets/3dd3f1aa-569e-46d3-b73b-0563e65b9939">
 
+   可以在用户settings.json里手动 修改一些东西如一些快捷键，也可以直接在插件里点设置，最后也会体现在settings.js里
+
 
 2. systemverilog
