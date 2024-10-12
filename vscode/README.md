@@ -11,6 +11,8 @@ Vscode 首先装上这两个插件
    <img width="682" alt="image" src="https://github.com/user-attachments/assets/3dd3f1aa-569e-46d3-b73b-0563e65b9939">
 
    可以在用户settings.json里手动 修改一些东西如一些快捷键，也可以直接在插件里点设置，最后也会体现在settings.js里
+   <img width="711" alt="image" src="https://github.com/user-attachments/assets/3a52be76-ce51-4036-b98b-f5e4a3bda391">
+   <img width="546" alt="image" src="https://github.com/user-attachments/assets/a4d6f5c6-72c2-4ea9-b0d3-104507786ad0">
 
 
 2. systemverilog
