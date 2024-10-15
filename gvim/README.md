@@ -4,7 +4,7 @@ unzip nerdtree-master.zip
 
 mv nerdtree-master .vim
 
-复制所以.vim到~/.vim/syntax
+复制所有.vim到~/.vim/syntax
 
 复制vimrc 到 ~/.vimrc
 
