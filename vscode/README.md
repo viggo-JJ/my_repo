@@ -17,6 +17,7 @@ Vscode 首先装上这两个插件
 
 2. systemverilog
     可以加一些代码片段
+   
    <img width="386" alt="image" src="https://github.com/user-attachments/assets/2cee2926-e64f-4158-a881-dfca389282a8">
    <img width="675" alt="image" src="https://github.com/user-attachments/assets/aca1eab4-08c4-4f9e-8652-cbd1cc8806ad">
 
