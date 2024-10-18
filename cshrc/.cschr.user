@@ -75,5 +75,6 @@ module use /proj/users/luyu.jw/module_files
 module load snps/dw_vip
 module load snps/vcs/V-2023.12-SP2
 module load snps/verdi/V-2023.12-SP2
+setenv UVM_HOME $VCS_HOME/etc/uvm-1.2
 
 
