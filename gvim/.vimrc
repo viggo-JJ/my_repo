@@ -90,11 +90,11 @@ if &term == "xterm"
 endif
 
 set guifont=Monospace\ 10
-:map  dh  i  `uvm_info(this.get_type_name(), "", UVM_HIGH) <ESC>
-:map  dm  i  `uvm_info(this.get_type_name(), "", UVM_MEDIUM) <ESC>
-:map  dl  i  `uvm_info(this.get_type_name(), "", UVM_LOW) <ESC>
-:map  de  i  `uvm_error(this.get_type_name(), "") <ESC>
-:map  df  i  `uvm_fatal(this.get_type_name(), "") <ESC>
+:map  dh  i  `uvm_info(this.get_type_name(), $sfomatf(""), UVM_HIGH) <ESC>
+:map  dm  i  `uvm_info(this.get_type_name(), $sfomatf(""), UVM_MEDIUM) <ESC>
+:map  dl  i  `uvm_info(this.get_type_name(), $sfomatf(""), UVM_LOW) <ESC>
+:map  de  i  `uvm_error(this.get_type_name(), $sfomatf("")) <ESC>
+:map  df  i  `uvm_fatal(this.get_type_name(), $sfomatf("")) <ESC>
 :map  dj  i  `uvm_info(this.get_type_name(),<enter>             {$sfomatf("\n......   %0d;",),<enter> $sfomatf("\n......   %0d;",),<enter>$sfomatf("\n......   %0d;",),<enter>$sfomatf("\n......   %0d;",)<enter>},UVM_LOW)<ESC>    
 :map  bb  :w!<enter>
 :map  qq  :q<enter>
