@@ -77,4 +77,5 @@ module load snps/vcs/V-2023.12-SP2
 module load snps/verdi/V-2023.12-SP2
 setenv UVM_HOME $VCS_HOME/etc/uvm-1.2
 
-
+alias python3 '/rshome/luyu.jw/software/python3.6/bin/python3.6'
+alias pip3 '/rshome/luyu.jw/software/python3.6/bin/pip3.6'
