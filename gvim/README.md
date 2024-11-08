@@ -4,7 +4,9 @@ unzip nerdtree-master.zip
 
 mv nerdtree-master .vim
 
-复制所有.vim到~/.vim/syntax
+复制所有syntax里的.vim到~/.vim/syntax
+复制autoload里的verilog_systemverilog.vim 到~/.vim/autoload
+复制plugin里的verilog_systemverilog.vim 到~/.vim/plugin
 
 复制vimrc 到 ~/.vimrc
 
