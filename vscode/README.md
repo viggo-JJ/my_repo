@@ -21,3 +21,4 @@ Vscode 首先装上这两个插件
    <img width="386" alt="image" src="https://github.com/user-attachments/assets/2cee2926-e64f-4158-a881-dfca389282a8">
    <img width="675" alt="image" src="https://github.com/user-attachments/assets/aca1eab4-08c4-4f9e-8652-cbd1cc8806ad">
 
+3. vscode 使用ctags有快捷键的冲突，需要修改ctags快捷键，点设置里的keyboard shortcuts进行修改，默认是ctrl+T 可以改成ctrl+'
