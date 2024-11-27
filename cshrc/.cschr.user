@@ -64,7 +64,8 @@ alias verdi 'verdi -nologo'
 # lsof -i:27000
 # kill -9 <PID>
 
-##########load modules########`bb
+##########load modules########`
+##unsetenv MODULEPATH
 module use /tools/in_house/common/env/modulefiles #add new path to MODULEPATH
 module unload vim
 module load vim/8.2
